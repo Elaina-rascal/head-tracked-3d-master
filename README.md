@@ -13,4 +13,4 @@
 - Run demo locally: `npm start`
 - Build the whole demo into `/docs` folder: `npm run build`
 ### 自己的标定结构
-！[](./imgs/my_ca.png)
+![](./imgs/my_ca.png)

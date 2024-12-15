@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { MMDAnimationHelper } from "three/examples/jsm/animation/MMDAnimationHelper.js";
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { MMDLoader } from "three/examples/jsm/loaders/MMDLoader.js";
 import { Pane } from "tweakpane";
 import { HeadTracker } from "./head-tracker";
@@ -292,7 +293,37 @@ function addStaticModel(
     }
   );
 }
+function addStaticModel_GLTF(
+  parent: THREE.Group,
+  {
+    modelFile = "path/to/your/model.obj", // 改为你要加载的静态模型文件路径
+    x = 0,
+    y = 0,
+    z = 0,
+    scale = 0.01,
+  } = {}
+) {
+  const loader = new GLTFLoader() // 使用合适的加载器，例如 OBJLoader 或 GLTFLoader
 
+  loader.load(
+    modelFile,
+    (gltf) => { // glTF 文件返回的对象
+      const object = gltf.scene; // 获取模型的场景对象
+      object.scale.set(scale, scale, scale); // 设置模型缩放
+      object.position.set(x, y, z); // 设置模型位置
+      parent.add(object); // 将模型添加到父对象中
+    },
+    (xhr) => {
+      if (xhr.lengthComputable) {
+        const percentComplete = (xhr.loaded / xhr.total) * 100;
+        console.log(Math.round(percentComplete) + "% downloaded");
+      }
+    },
+    (error) => {
+      console.error("An error occurred while loading the model:", error);
+    }
+  );
+}
 createPlatform(mainScene, { x: 0, y: -0.25 });
 // addMiku(mainScene, {
 //   modelFile: "mmd/miku-sakura-yyb/miku.pmx",
@@ -300,8 +331,14 @@ createPlatform(mainScene, { x: 0, y: -0.25 });
 //   y: -0.25,
 //   z: 2,
 // });
-addStaticModel(mainScene, {
-  modelFile: "mmd/model/clen.fbx",
+// addStaticModel(mainScene, {
+//   modelFile: "mmd/model/qiuri.fbx",
+//   x: 0,
+//   y: -0.25,
+//   z: 2,
+// });
+addStaticModel_GLTF(mainScene, {
+  modelFile: "mmd/model/qiuri.gltf",
   x: 0,
   y: -0.25,
   z: 2,
