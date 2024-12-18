@@ -149,6 +149,8 @@ const box = addBox(scene);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.domElement.id = "threeCanvas";
 renderer.setSize(window.innerWidth, window.innerHeight);
+// renderer.outputEncoding = THREE.LinearEncoding;
+renderer.outputEncoding = THREE.sRGBEncoding;
 document.body.appendChild(renderer.domElement);
 
 const headTracker = new HeadTracker();
@@ -277,6 +279,24 @@ function addStaticModel(
   loader.load(
     modelFile,
     function (object) {
+      object.traverse(function (child) {
+        if (child instanceof THREE.Mesh) { // 使用 instanceof 判断是否是 Mesh 类型
+          child.castShadow = true; // 让物体投射阴影
+          child.receiveShadow = true; // 让物体接收阴影
+
+          // 设置材质为双面
+          child.material.side = THREE.DoubleSide;
+
+          // 设置发光材质
+          if (child.material) {
+            child.material.emissive = new THREE.Color(1, 1, 1); // 设置发光颜色为白色
+            child.material.emissiveIntensity = 1; // 设置发光强度
+            child.material.emissiveMap = child.material.map; // 设置发光贴图为基础贴图
+          }
+        }
+      });
+
+
       object.scale.set(scale, scale, scale);
       object.position.set(x, y, z);
       parent.add(object);
@@ -301,7 +321,7 @@ createPlatform(mainScene, { x: 0, y: -0.25 });
 //   z: 2,
 // });
 addStaticModel(mainScene, {
-  modelFile: "mmd/model/clen.fbx",
+  modelFile: "mmd/model/qiuri_.fbx",
   x: 0,
   y: -0.25,
   z: 2,
