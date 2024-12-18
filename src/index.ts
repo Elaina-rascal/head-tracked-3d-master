@@ -331,18 +331,18 @@ createPlatform(mainScene, { x: 0, y: -0.25 });
 //   y: -0.25,
 //   z: 2,
 // });
-// addStaticModel(mainScene, {
-//   modelFile: "mmd/model/qiuri.fbx",
-//   x: 0,
-//   y: -0.25,
-//   z: 2,
-// });
-addStaticModel_GLTF(mainScene, {
-  modelFile: "mmd/model/qiuri.gltf",
+addStaticModel(mainScene, {
+  modelFile: "mmd/model/qiuri_elaina.fbx",
   x: 0,
   y: -0.25,
   z: 2,
 });
+// addStaticModel_GLTF(mainScene, {
+//   modelFile: "mmd/model/qiuri.gltf",
+//   x: 0,
+//   y: -0.25,
+//   z: 2,
+// });
 // createPlatform(mainScene, { x: 0.5, y: -0.25 });
 // addMiku(mainScene, {
 //   modelFile: "mmd/miku-yyb/miku.pmx",
